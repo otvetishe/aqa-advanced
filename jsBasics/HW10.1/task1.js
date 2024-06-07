@@ -1,92 +1,20 @@
-class Book {
-    constructor(name, author, year) {
-        this._name = name;
-        this._author = author;
-        this._year = year;
-    }
+import Book from './book.js';
+import EBook from './ebook.js';
 
-    get name() {
-        return this._name;
-    }
+//Створіть кілька об'єктів цього класу та викличте printInfo для кожного екземпляру.
+const book10 = new Book("451 градус по Фаренгейту", "Рей Бредберрі", 1953)
+const book20 = new Book("Чорна риторика", "Карстен Бредемайєр", 2020);
+const book30 = new Book("Каміне лице", "Лі Тянь", 2018);
 
-    set name(value) {
-        if (typeof value !== 'string' || value.trim() === '') {
-            throw new Error('Назва повинна бути не порожнім рядком');
-        }
-        this._name = value;
-    }
+book10.printInfo();
+book20.printInfo();
+book30.printInfo();
 
-    get author() {
-        return this._author;
-    }
+//Створіть інстанс (екземпляр) класу EBook та викличте метод printInfo
 
-    set author(value) {
-        if (typeof value !== 'string' || value.trim() === '') {
-            throw new Error('Автор повинен бути не порожнім рядком');
-        }
-        this._author = value;
-    }
+const ebook10 = new EBook("451 градус по Фаренгейту", "Рей Бредберрі", 1953, "PDF");
 
-    get year() {
-        return this._year;
-    }
-
-    set year(value) {
-        const currentYear = new Date().getFullYear();
-        if (typeof value !== 'number' || value < 0 || value > currentYear) {
-            throw new Error('Рік видання повинен бути числом між 0 та поточним роком');
-        }
-        this._year = value;
-    }
-
-    printInfo() {
-        console.log(`Назва: ${this.name}, Автор: ${this.author}, Рік видання: ${this.year}`);
-    }
-
-    // Статичний метод для знаходження найдавнішої книги
-    static findOldestBook(books) {
-        if (!Array.isArray(books) || books.length === 0) {
-            throw new Error('Необхідно передати масив об\'єктів книг');
-        }
-
-        return books.reduce((oldest, current) => {
-            return current.year < oldest.year ? current : oldest;
-        });
-    }
-}
-
-// Новий клас EBook, що успадковує клас Book
-class EBook extends Book {
-    constructor(name, author, year, fileFormat) {
-        super(name, author, year);
-        this._fileFormat = fileFormat;
-    }
-
-    // Геттери та сеттери для властивості fileFormat
-    get fileFormat() {
-        return this._fileFormat;
-    }
-
-    set fileFormat(value) {
-        const validFormats = ['PDF', 'EPUB', 'MOBI', 'AZW'];
-        if (!validFormats.includes(value)) {
-            throw new Error('Формат файлу повинен бути одним з наступних: PDF, EPUB, MOBI, AZW');
-        }
-        this._fileFormat = value;
-    }
-
-    printInfo() {
-        console.log(`Назва: ${this.name}, Автор: ${this.author}, Рік видання: ${this.year}, Формат файлу: ${this.fileFormat}`);
-    }
-
-    // Статичний метод для створення екземпляра EBook з екземпляра Book
-    static fromBook(book, fileFormat) {
-        if (!(book instanceof Book)) {
-            throw new Error('Потрібно передати екземпляр класу Book');
-        }
-        return new EBook(book.name, book.author, book.year, fileFormat);
-    }
-}
+ebook10.printInfo();
 
 // Створення екземплярів класів Book та EBook
 const book1 = new Book("1984", "Джордж Орвелл", 1949);

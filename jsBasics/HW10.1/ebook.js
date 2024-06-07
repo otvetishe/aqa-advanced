@@ -1,26 +1,35 @@
-class Book {
-    constructor(name, author, year) {
-        this.name = name;
-        this.author = author;
-        this.year = year;
-    }
-
-    printInfo() {
-        console.log(`Назва: ${this.name}, Автор: ${this.author}, Рік видання: ${this.year}`);
-    }
-}
+import Book from './book.js';
 
 class EBook extends Book {
-    constructor(title, author, year, fileFormat) {
-        super(title, author, year);
-        this.fileFormat = fileFormat;
+    constructor(name, author, year, fileFormat) {
+        super(name, author, year);
+        this._fileFormat = fileFormat;
+    }
+
+    // Геттери та сеттери для властивості fileFormat
+    get fileFormat() {
+        return this._fileFormat;
+    }
+
+    set fileFormat(value) {
+        const validFormats = ['PDF', 'EPUB', 'MOBI', 'AZW'];
+        if (!validFormats.includes(value)) {
+            throw new Error('Формат файлу повинен бути одним з наступних: PDF, EPUB, MOBI, AZW');
+        }
+        this._fileFormat = value;
     }
 
     printInfo() {
         console.log(`Назва: ${this.name}, Автор: ${this.author}, Рік видання: ${this.year}, Формат файлу: ${this.fileFormat}`);
     }
+
+    // Статичний метод для створення екземпляра EBook з екземпляра Book
+    static fromBook(book, fileFormat) {
+        if (!(book instanceof Book)) {
+            throw new Error('Потрібно передати екземпляр класу Book');
+        }
+        return new EBook(book.name, book.author, book.year, fileFormat);
+    }
 }
 
-const ebook1 = new EBook("451 градус по Фаренгейту", "Рей Бредберрі", 1953, "PDF");
-
-ebook1.printInfo();
+export default EBook;
