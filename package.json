@@ -1,6 +1,31 @@
 {
   "type": "module",
+  "scripts": {
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check .",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.4.0",
+    "eslint": "^9.4.0",
+    "globals": "^15.4.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.5",
+    "prettier": "^2.0.5"
+  },
   "dependencies": {
     "chalk": "^5.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   }
 }
